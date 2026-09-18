@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import Image from 'next/image';
 import { Layout, Input, Badge, Avatar, Tooltip, Space, Dropdown, Switch } from 'antd';
 import {
   MenuFoldOutlined, MenuUnfoldOutlined, SearchOutlined,
@@ -129,11 +130,13 @@ const TopHeader: React.FC<TopHeaderProps> = ({ collapsed, onToggle }) => {
 
         <Dropdown menu={{ items: userMenuItems }} placement="bottomRight" arrow>
           <button style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 2 }} aria-label="User menu">
-            <img
+            <Image
               src="https://api.dicebear.com/7.x/avataaars/svg?seed=natalia&backgroundColor=b6e3f4"
               alt="User avatar"
               width={36}
               height={36}
+              sizes="36px"
+              priority
               style={{ borderRadius: '50%', border: '2px solid #5d87ff', display: 'block' }}
             />
           </button>
