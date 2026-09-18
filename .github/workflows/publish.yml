@@ -59,9 +59,11 @@ jobs:
         env:
           IMAGE_BASE: ghcr.io/${{ github.repository }}
         run: |
-          # GHCR references must be lowercase
+          # GHCR references must be lowercase; use the version metadata-action
+          # generated (tag "v1.2.3" → image tag "1.2.3"), not the raw ref name.
           IMAGE_BASE=$(echo "$IMAGE_BASE" | tr '[:upper:]' '[:lower:]')
-          IMAGE="$IMAGE_BASE:${{ github.ref_name }}"
+          IMAGE="$IMAGE_BASE:${{ steps.meta.outputs.version }}"
+          echo "Verifying $IMAGE"
           docker pull "$IMAGE"
           docker run -d --name verify -p 3000:3000 "$IMAGE"
           for i in $(seq 1 30); do
