@@ -25,7 +25,7 @@ const WelcomeCard: React.FC = () => (
               <Title level={3} style={{ margin: 0, color: '#2a3547' }}>$2,340</Title>
               <ArrowUpOutlined style={{ color: '#5d87ff', fontSize: 14, fontWeight: 700 }} />
             </div>
-            <Text style={{ fontSize: 13, color: '#7c8fac' }}>Today's Sales</Text>
+            <Text style={{ fontSize: 13, color: '#7c8fac' }}>Today&apos;s Sales</Text>
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
