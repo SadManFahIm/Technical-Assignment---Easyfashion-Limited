@@ -32,11 +32,12 @@ const columns: ColumnsType<ProjectRow> = [
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
         {/* Cartoon avatar */}
         <div style={{ width: 36, height: 36, borderRadius: '50%', overflow: 'hidden', border: '2px solid #ecf2ff', flexShrink: 0 }}>
-          <img
+          <Image
             src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${avatarSeeds[index % avatarSeeds.length]}&backgroundColor=b6e3f4,c0aede,d1d4f9`}
             alt={name}
             width={36}
             height={36}
+            sizes="36px"
             style={{ borderRadius: '50%' }}
           />
         </div>

@@ -1,0 +1,21 @@
+node_modules
+.next
+out
+build
+.git
+.gitignore
+.vscode
+.freebuff
+coverage
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dev-server.log
+prod-server.log
+*.log
+Dockerfile
+.dockerignore
+docker-compose.yml
+README.md
+Screen Shots
+Frontend Assignment

@@ -1,70 +1,111 @@
 # 🚀 Easy Fashion Ltd. — Admin Dashboard
 
-A modern, responsive Admin Dashboard built with **Next.js 14**, **Ant Design 5**, and **Recharts**, closely following the provided Figma design.
+A modern, fully responsive **Admin Dashboard** built with **Next.js 15 (Pages Router)**, **Ant Design 5**, and **Recharts**, closely following the provided Figma design. It ships three complete dashboard views, light/dark theming, and a production-ready Docker deployment.
+
+> **Live pages:** Modern (`/`) · Analytical (`/dashboard2`) · eCommerce (`/dashboard3`)
+
+---
+
+## ✨ Highlights
+
+- **Pixel-focused UI** — Ant Design 5 component system tuned with custom theme tokens to match the Figma palette (`#5d87ff` primary, `#13deb9` success, `#ffae1f` warning).
+- **Three complete dashboards** — stat cards, revenue bar charts, donut breakups, sparklines, transaction feeds, and data tables with priority badges.
+- **Light / Dark mode** — `ThemeContext`-driven algorithm switching via Ant Design's theming engine, persisted across reloads.
+- **Optimized images** — `next/image` everywhere (remote avatars + local illustrations) with `priority` and `sizes` hints for strong LCP.
+- **Typed end-to-end** — strict TypeScript, ESLint (`next/core-web-vitals`) clean.
+- **Secure by default** — all pinned dependencies pass `npm audit` with **0 known vulnerabilities** (postcss pinned to the patched release via npm `overrides`).
+- **One-command Docker deploy** — multi-stage build producing a slim, non-root, standalone runtime.
 
 ---
 
 ## 📸 Screenshots
 
-| Dashboard 1 — Modern                    | Dashboard 2 — Analytical                        | Dashboard 3 — eCommerce     |
-| --------------------------------------- | ----------------------------------------------- | --------------------------- |
+### 🌞 Light Mode — Dashboard 1 (Modern)
+
+![Dashboard Light Mode](./Screen%20Shots/Modern%20Dashboard%20%E2%80%94%20Easy%20Fashion%20Ltd.%20Day%20light.png)
+
+### 🌙 Dark Mode — Dashboard 1 (Modern)
+
+![Dashboard Dark Mode](./Screen%20Shots/Modern%20Dashboard%20%E2%80%94%20Easy%20Fashion%20Ltd.%20Night%20Mode%20.png)
+
+| Dashboard 1 — Modern | Dashboard 2 — Analytical | Dashboard 3 — eCommerce |
+| -------------------- | ------------------------ | ----------------------- |
 | Stat cards, Revenue chart, Best Selling | Welcome card, Transactions, Product Performance | Combined full-featured view |
 
 ---
 
-## 📸 Screenshots - 2
-
-### 🌞 Light Mode
-
-![Dashboard Light Mode](./Screen%20Shots/Modern%20Dashboard%20%E2%80%94%20Easy%20Fashion%20Ltd.%20Day%20light.png)
-
-### 🌙 Dark Mode
-
-![Dashboard Dark Mode](./Screen%20Shots/Modern%20Dashboard%20%E2%80%94%20Easy%20Fashion%20Ltd.%20Night%20Mode%20.png)
-
 ## 🛠️ Tech Stack
 
-| Tool                                          | Purpose                                 |
-| --------------------------------------------- | --------------------------------------- |
-| [Next.js 14](https://nextjs.org/)             | React framework with file-based routing |
-| [Ant Design 5](https://ant.design/)           | Primary UI component library            |
-| [Recharts](https://recharts.org/)             | Charts & data visualisations            |
-| [TypeScript](https://www.typescriptlang.org/) | Type safety                             |
-| [Day.js](https://day.js.org/)                 | Date utilities (used by Ant Design)     |
+| Tool | Purpose | Version |
+| --------------------------------------------- | --------------------------------------- | -------- |
+| [Next.js](https://nextjs.org/) | React framework with file-based routing | 15.5.25 |
+| [React](https://react.dev/) | UI library | 18.3.1 |
+| [Ant Design 5](https://ant.design/) | Primary UI component library | 5.29.3 |
+| [@ant-design/icons](https://ant.design/) | Icon set | 5.6.1 |
+| [Recharts](https://recharts.org/) | Charts & data visualisations | 2.15.4 |
+| [TypeScript](https://www.typescriptlang.org/) | Type safety | 5.9.3 |
+| [Day.js](https://day.js.org/) | Date utilities (used by Ant Design) | 1.11.23 |
+| [ESLint](https://eslint.org/) | Linting (`next/core-web-vitals`) | 8.56.0 |
+| Docker | Containerised deployment | multi-stage |
+
+> 🔒 Dependency hygiene: `npm audit` reports **0 vulnerabilities**.
 
 ---
 
 ## 📁 Project Structure
 
 ```
-src/
-├── components/
-│   ├── layout/
-│   │   ├── DashboardLayout.tsx   # Main layout wrapper
-│   │   ├── Sidebar.tsx           # Left navigation sidebar
-│   │   └── Header.tsx            # Top navigation bar
-│   └── dashboard/
-│       ├── StatCards.tsx         # 6 summary stat cards
-│       ├── RevenueChart.tsx      # Bar chart — revenue vs expense
-│       ├── EarningsWidgets.tsx   # Yearly breakup donut + monthly earnings sparkline
-│       ├── EmployeeSalary.tsx    # Monthly salary bar chart + customer mini cards
-│       ├── WeeklyStats.tsx       # Weekly sparkline + top sellers list
-│       ├── TopProjects.tsx       # Top projects table
-│       ├── ProductPerformance.tsx# Product performance table with tabs
-│       ├── BestSellingProducts.tsx # Blue card with progress bars
-│       ├── WelcomeCard.tsx       # Welcome hero banner
-│       ├── RecentTransactions.tsx# Transaction list
-│       └── DailyActivities.tsx   # Timeline activity feed
-├── data/
-│   └── mockData.ts               # All mock data (replace with API calls)
-├── pages/
-│   ├── _app.tsx                  # App wrapper + Ant Design theme config
-│   ├── _document.tsx             # Custom HTML + Google Fonts
-│   ├── index.tsx                 # Dashboard 1 — Modern
-│   ├── dashboard2.tsx            # Dashboard 2 — Analytical
-│   └── dashboard3.tsx            # Dashboard 3 — eCommerce
-└── styles/
-    └── globals.css               # Global styles + Ant Design overrides
+easy-fashion-dashboard/
+├── public/                          # Static assets served at /
+│   └── images/
+│       ├── logo.png                 # Easy Fashion brand logo
+│       ├── welcome-illustration.png # Welcome card illustration
+│       └── product-illustration.png # Dashboard illustration
+│
+├── src/
+│   ├── components/
+│   │   ├── layout/                  # Application chrome
+│   │   │   ├── DashboardLayout.tsx  # Layout wrapper (Sider + Header + Content)
+│   │   │   ├── Sidebar.tsx          # Left navigation menu
+│   │   │   └── Header.tsx           # Top bar: search, theme toggle, alerts
+│   │   │
+│   │   └── dashboard/               # Composable dashboard widgets
+│   │       ├── StatCards.tsx        # 6 KPI summary cards
+│   │       ├── RevenueChart.tsx     # Revenue vs expense bar chart
+│   │       ├── EarningsWidgets.tsx  # Yearly breakup donut + earnings sparkline
+│   │       ├── EmployeeSalary.tsx   # Monthly salary chart + customer mini cards
+│   │       ├── WeeklyStats.tsx      # Weekly stats + top sellers list
+│   │       ├── TopProjects.tsx      # Top projects table (avatars, priority)
+│   │       ├── ProductPerformance.tsx # Product performance table with tabs
+│   │       ├── BestSellingProducts.tsx # Best-selling progress list
+│   │       ├── WelcomeCard.tsx      # Welcome hero banner
+│   │       ├── RecentTransactions.tsx # Transaction timeline
+│   │       └── DailyActivities.tsx  # Activity feed
+│   │
+│   ├── context/
+│   │   └── ThemeContext.tsx         # Light/dark theme state + persistence
+│   │
+│   ├── data/
+│   │   └── mockData.ts              # All mock data (swap for API calls)
+│   │
+│   ├── pages/                       # File-based routes
+│   │   ├── _app.tsx                 # ConfigProvider + theme tokens
+│   │   ├── _document.tsx            # HTML shell + Google Fonts
+│   │   ├── index.tsx                # Dashboard 1 — Modern
+│   │   ├── dashboard2.tsx           # Dashboard 2 — Analytical
+│   │   └── dashboard3.tsx           # Dashboard 3 — eCommerce
+│   │
+│   └── styles/
+│       └── globals.css              # Global styles + Ant Design overrides
+│
+├── .dockerignore                    # Docker build context exclusions
+├── .eslintrc.json                   # ESLint config (next/core-web-vitals)
+├── .gitignore                       # Local artifacts never reach the repo
+├── Dockerfile                       # Multi-stage production image
+├── docker-compose.yml               # One-command deployment
+├── next.config.js                   # Standalone output + remote image hosts
+├── package.json                     # Scripts + pinned dependencies
+└── tsconfig.json                    # Strict TypeScript config (@/* paths)
 ```
 
 ---
@@ -73,17 +114,19 @@ src/
 
 ### Prerequisites
 
-- **Node.js** ≥ 18.x
-- **npm** ≥ 9.x (or yarn / pnpm)
+| Requirement | Minimum |
+| ----------- | ------- |
+| Node.js     | 18.17+  |
+| npm         | 9+      |
 
 ### Installation
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/easy-fashion-dashboard.git
+git clone https://github.com/SadManFahIm/Technical-Assignment---Easyfashion-Limited.git
 
 # 2. Navigate into the project
-cd easy-fashion-dashboard
+cd Technical-Assignment---Easyfashion-Limited
 
 # 3. Install dependencies
 npm install
@@ -94,61 +137,73 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+> No environment variables are required — the app runs on bundled mock data. To hook up a real API later, create `.env.local` with `NEXT_PUBLIC_API_URL=https://your-api.example.com`.
+
 ---
 
 ## 📄 Available Pages
 
-| Route         | Description                                                                |
-| ------------- | -------------------------------------------------------------------------- |
-| `/`           | Dashboard 1 — Modern (stat cards, revenue chart, employee salary)          |
+| Route | Description |
+| ----- | ----------- |
+| `/` | Dashboard 1 — Modern (stat cards, revenue chart, employee salary) |
 | `/dashboard2` | Dashboard 2 — Analytical (welcome card, transactions, product performance) |
-| `/dashboard3` | Dashboard 3 — eCommerce (combined comprehensive view)                      |
+| `/dashboard3` | Dashboard 3 — eCommerce (combined comprehensive view) |
+
+---
+
+## 🧪 Scripts
+
+| Command | Description |
+| ------- | ----------- |
+| `npm run dev` | Start the dev server with hot reload |
+| `npm run build` | Create an optimised production build |
+| `npm start` | Serve the production build |
+| `npm run lint` | Run ESLint (next/core-web-vitals) |
+
+---
+
+## 🐳 Docker Deployment
+
+The image is a **multi-stage build**: dependencies are installed once, the app is compiled with `output: 'standalone'`, and the final stage copies only the files `node server.js` needs into a **non-root** `node:20-alpine` runtime.
+
+```bash
+# Build & run with compose (recommended)
+docker compose up --build -d
+
+# …or plain Docker
+docker build -t easy-fashion-dashboard .
+docker run -p 3000:3000 easy-fashion-dashboard
+```
+
+Then open [http://localhost:3000](http://localhost:3000). The container includes a built-in healthcheck hitting the homepage.
 
 ---
 
 ## 🎨 Design Decisions
 
-- **Theme**: Custom Ant Design theme tokens to match the Figma colour palette (`#5d87ff` primary blue, `#13deb9` success green, `#ffae1f` warning orange).
-- **Typography**: `Plus Jakarta Sans` via Google Fonts — a clean, modern sans-serif that complements the design system.
-- **Charts**: Recharts was chosen for its lightweight footprint and SSR compatibility with Next.js.
-- **Responsiveness**: CSS Grid via Ant Design's `Row`/`Col` system. Breakpoints: `xs` → `lg` ensure the layout reflows cleanly on mobile and tablet.
-- **Comments**: Every file is thoroughly commented for maintainability.
+- **Theme** — custom Ant Design tokens map the Figma palette; light/dark algorithms swap a full token set (`ThemeContext`), so every component re-themes consistently.
+- **Typography** — `Plus Jakarta Sans` (Google Fonts) loaded in `_document.tsx`.
+- **Charts** — Recharts for its small footprint and SSR compatibility with Next.js.
+- **Responsiveness** — Ant Design's `Row`/`Col` grid with `xs → lg` breakpoints keeps the layout clean on mobile and tablet.
+- **Images** — remote DiceBear avatars whitelisted via `images.remotePatterns`; above-the-fold art uses `priority`.
+- **Comments** — every file is thoroughly commented for maintainability.
 
 ---
 
-## 🏗️ Build for Production
+## 🔄 Git Workflow
 
-```bash
-npm run build
-npm start
-```
-
----
-
-## 🔧 Linting
-
-```bash
-npm run lint
-```
-
----
-
-## 📦 Environment Variables
-
-No environment variables are required for the current mock-data implementation. When connecting to a real API, create `.env.local`:
-
-```env
-NEXT_PUBLIC_API_URL=https://your-api.example.com
-```
+- `main` — production-ready branch (protected; merges via PR only)
+- `Develop` — integration branch; feature branches land here first
+- Feature branches follow `feat/<topic>` and are merged into `Develop`, then released to `main` through a reviewed PR.
 
 ---
 
 ## 👨‍💻 Author
 
-Built as a Frontend Developer assignment for **Easy Fashion Ltd.**
+Built as a Frontend Developer assignment for **Easy Fashion Ltd.** by [SadManFahIm](https://github.com/SadManFahIm).
 
 ---
 
-## 📝 License
+## 📄 License
 
-This project is for assessment purposes only.
+Private / internal — all rights reserved.

@@ -5,6 +5,7 @@
 
 import React from 'react';
 import { Card, Table, Typography, Select, Tabs } from 'antd';
+import Image from 'next/image';
 import type { ColumnsType } from 'antd/es/table';
 import { productPerformances } from '@/data/mockData';
 
@@ -42,11 +43,12 @@ const columns: ColumnsType<PerfRow> = [
     render: (name: string, record, index) => (
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
         <div style={{ width: 36, height: 36, borderRadius: '50%', overflow: 'hidden', border: '2px solid #ecf2ff', flexShrink: 0 }}>
-          <img
+          <Image
             src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${avatarSeeds[index % avatarSeeds.length]}&backgroundColor=ffd5dc,c0aede,b6e3f4,d1d4f9`}
             alt={name}
             width={36}
             height={36}
+            sizes="36px"
             style={{ borderRadius: '50%' }}
           />
         </div>
