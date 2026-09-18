@@ -56,8 +56,12 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Verify published image boots
+        env:
+          IMAGE_BASE: ghcr.io/${{ github.repository }}
         run: |
-          IMAGE="ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
+          # GHCR references must be lowercase
+          IMAGE_BASE=$(echo "$IMAGE_BASE" | tr '[:upper:]' '[:lower:]')
+          IMAGE="$IMAGE_BASE:${{ github.ref_name }}"
           docker pull "$IMAGE"
           docker run -d --name verify -p 3000:3000 "$IMAGE"
           for i in $(seq 1 30); do
