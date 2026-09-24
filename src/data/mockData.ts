@@ -106,7 +106,7 @@ export const yearlyBreakupData = [
 // ── Recent Transactions ───────────────────────────────────────
 export const transactions = [
   { id: 1, name: 'PayPal Transfer',  desc: 'Money added',    amount: '+$6,235', color: '#3b82f6', icon: '💳' },
-  { id: 2, name: 'Wallet',           desc: 'Bill payment',   amount: '+$345',   color: '#10b981', icon: '👛' },
+  { id: 2, name: 'Wallet',           desc: 'Money added',    amount: '+$345',   color: '#10b981', icon: '👛' },
   { id: 3, name: 'Credit Card',      desc: 'Money reversed', amount: '+$2,235', color: '#f59e0b', icon: '💳' },
   { id: 4, name: 'Bank Transfer',    desc: 'Money added',    amount: '+$320',   color: '#6366f1', icon: '🏦' },
   { id: 5, name: 'Refund',           desc: 'Bill payment',   amount: '-$32',    color: '#ef4444', icon: '↩️' },
