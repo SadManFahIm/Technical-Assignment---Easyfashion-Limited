@@ -5,7 +5,8 @@ A modern, fully responsive **Admin Dashboard** built with **Next.js 15 (Pages Ro
 [![CI](https://github.com/SadManFahIm/Technical-Assignment---Easyfashion-Limited/actions/workflows/ci.yml/badge.svg)](https://github.com/SadManFahIm/Technical-Assignment---Easyfashion-Limited/actions/workflows/ci.yml)
 [![Publish](https://github.com/SadManFahIm/Technical-Assignment---Easyfashion-Limited/actions/workflows/publish.yml/badge.svg)](https://github.com/SadManFahIm/Technical-Assignment---Easyfashion-Limited/pkgs/container/technical-assignment---easyfashion-limited)
 [![Release](https://img.shields.io/github/v/release/SadManFahIm/Technical-Assignment---Easyfashion-Limited)](https://github.com/SadManFahIm/Technical-Assignment---Easyfashion-Limited/releases/latest)
-[![Tests](https://img.shields.io/badge/tests-29%20passing-brightgreen)](https://github.com/SadManFahIm/Technical-Assignment---Easyfashion-Limited/actions/workflows/ci.yml)
+[![Tests](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SadManFahIm/Technical-Assignment---Easyfashion-Limited/ci-badges/coverage/tests.json)](https://github.com/SadManFahIm/Technical-Assignment---Easyfashion-Limited/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SadManFahIm/Technical-Assignment---Easyfashion-Limited/ci-badges/coverage/coverage.json)](https://github.com/SadManFahIm/Technical-Assignment---Easyfashion-Limited/actions/workflows/ci.yml)
 
 > **Live pages:** Modern (`/`) · Analytical (`/dashboard2`) · eCommerce (`/dashboard3`)
 

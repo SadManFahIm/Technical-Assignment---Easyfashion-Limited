@@ -20,6 +20,10 @@ export default defineConfig({
     setupFiles: ['./src/test/setup.ts'],
     css: false,
     include: ['src/**/*.test.{ts,tsx}'],
+    // Ant Design's cssinjs makes first renders of complex components slow
+    // under jsdom; give heavy suites room instead of flaking.
+    testTimeout: 20_000,
+    hookTimeout: 20_000,
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html', 'json-summary'],
@@ -31,10 +35,10 @@ export default defineConfig({
       // Raise them as more tests land — never lower them.
       thresholds: {
         // Global floor across all instrumented sources
-        statements: 25,
-        branches: 55,
-        functions: 37,
-        lines: 25,
+        statements: 62,
+        branches: 85,
+        functions: 69,
+        lines: 62,
         'src/data/**': {
           statements: 100, branches: 100, functions: 100, lines: 100,
         },
@@ -42,7 +46,10 @@ export default defineConfig({
           statements: 100, branches: 75, functions: 75, lines: 100,
         },
         'src/components/dashboard/**': {
-          statements: 35, branches: 65, functions: 45, lines: 35,
+          statements: 81, branches: 91, functions: 76, lines: 81,
+        },
+        'src/components/layout/**': {
+          statements: 100, branches: 90, functions: 100, lines: 100,
         },
       },
     },
