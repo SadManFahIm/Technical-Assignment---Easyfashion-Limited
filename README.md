@@ -2,6 +2,11 @@
 
 A modern, fully responsive **Admin Dashboard** built with **Next.js 15 (Pages Router)**, **Ant Design 5**, and **Recharts**, closely following the provided Figma design. It ships three complete dashboard views, light/dark theming, and a production-ready Docker deployment.
 
+[![CI](https://github.com/SadManFahIm/Technical-Assignment---Easyfashion-Limited/actions/workflows/ci.yml/badge.svg)](https://github.com/SadManFahIm/Technical-Assignment---Easyfashion-Limited/actions/workflows/ci.yml)
+[![Publish](https://github.com/SadManFahIm/Technical-Assignment---Easyfashion-Limited/actions/workflows/publish.yml/badge.svg)](https://github.com/SadManFahIm/Technical-Assignment---Easyfashion-Limited/pkgs/container/technical-assignment---easyfashion-limited)
+[![Release](https://img.shields.io/github/v/release/SadManFahIm/Technical-Assignment---Easyfashion-Limited)](https://github.com/SadManFahIm/Technical-Assignment---Easyfashion-Limited/releases/latest)
+[![Tests](https://img.shields.io/badge/tests-29%20passing-brightgreen)](https://github.com/SadManFahIm/Technical-Assignment---Easyfashion-Limited/actions/workflows/ci.yml)
+
 > **Live pages:** Modern (`/`) · Analytical (`/dashboard2`) · eCommerce (`/dashboard3`)
 
 ---
@@ -12,7 +17,8 @@ A modern, fully responsive **Admin Dashboard** built with **Next.js 15 (Pages Ro
 - **Three complete dashboards** — stat cards, revenue bar charts, donut breakups, sparklines, transaction feeds, and data tables with priority badges.
 - **Light / Dark mode** — `ThemeContext`-driven algorithm switching via Ant Design's theming engine, persisted across reloads.
 - **Optimized images** — `next/image` everywhere (remote avatars + local illustrations) with `priority` and `sizes` hints for strong LCP.
-- **Typed end-to-end** — strict TypeScript, ESLint (`next/core-web-vitals`) clean.
+- **Typed end-to-end** — strict TypeScript, ESLint 9 (flat config) clean.
+- **Tested & measured** — Vitest + React Testing Library suite with coverage thresholds enforced in CI; lint, build, Docker smoke test, and dependency audit gate every PR.
 - **Secure by default** — all pinned dependencies pass `npm audit` with **0 known vulnerabilities** (postcss pinned to the patched release via npm `overrides`).
 - **One-command Docker deploy** — multi-stage build producing a slim, non-root, standalone runtime.
 
@@ -45,7 +51,8 @@ A modern, fully responsive **Admin Dashboard** built with **Next.js 15 (Pages Ro
 | [Recharts](https://recharts.org/) | Charts & data visualisations | 2.15.4 |
 | [TypeScript](https://www.typescriptlang.org/) | Type safety | 5.9.3 |
 | [Day.js](https://day.js.org/) | Date utilities (used by Ant Design) | 1.11.23 |
-| [ESLint](https://eslint.org/) | Linting (`next/core-web-vitals`) | 8.56.0 |
+| [Vitest](https://vitest.dev/) + [RTL](https://testing-library.com/docs/react-testing-library/intro/) | Unit & component tests | 3.2.7 / 16.3.3 |
+| [ESLint](https://eslint.org/) | Linting (flat config) | 9.x |
 | Docker | Containerised deployment | multi-stage |
 
 > 🔒 Dependency hygiene: `npm audit` reports **0 vulnerabilities**.
@@ -80,13 +87,17 @@ easy-fashion-dashboard/
 │   │       ├── BestSellingProducts.tsx # Best-selling progress list
 │   │       ├── WelcomeCard.tsx      # Welcome hero banner
 │   │       ├── RecentTransactions.tsx # Transaction timeline
-│   │       └── DailyActivities.tsx  # Activity feed
+│   │       ├── DailyActivities.tsx  # Activity feed
+│   │       └── *.test.tsx           # Vitest + RTL unit tests
 │   │
 │   ├── context/
 │   │   └── ThemeContext.tsx         # Light/dark theme state + persistence
 │   │
 │   ├── data/
 │   │   └── mockData.ts              # All mock data (swap for API calls)
+│   │
+│   ├── test/
+│   │   └── setup.ts                 # Vitest setup (jest-dom, shims, cleanup)
 │   │
 │   ├── pages/                       # File-based routes
 │   │   ├── _app.tsx                 # ConfigProvider + theme tokens
@@ -99,8 +110,9 @@ easy-fashion-dashboard/
 │       └── globals.css              # Global styles + Ant Design overrides
 │
 ├── .dockerignore                    # Docker build context exclusions
-├── .eslintrc.json                   # ESLint config (next/core-web-vitals)
 ├── .gitignore                       # Local artifacts never reach the repo
+├── eslint.config.mjs                # ESLint 9 flat config (next/core-web-vitals)
+├── vitest.config.ts                 # Vitest config (jsdom, alias, coverage)
 ├── Dockerfile                       # Multi-stage production image
 ├── docker-compose.yml               # One-command deployment
 ├── next.config.js                   # Standalone output + remote image hosts
@@ -158,7 +170,10 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 | `npm run dev` | Start the dev server with hot reload |
 | `npm run build` | Create an optimised production build |
 | `npm start` | Serve the production build |
-| `npm run lint` | Run ESLint (next/core-web-vitals) |
+| `npm run lint` | Run ESLint 9 (flat config) over the repo |
+| `npm test` | Run the Vitest suite (CI mode) |
+| `npm run test:watch` | Run tests in watch mode |
+| `npm run test:coverage` | Run tests with V8 coverage (thresholds enforced) |
 
 ---
 
