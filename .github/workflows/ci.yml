@@ -16,6 +16,8 @@ jobs:
   quality:
     name: Lint · Test · Build · Audit
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,6 +39,16 @@ jobs:
 
       - name: Unit tests with coverage
         run: npm run test:coverage
+
+      # Dynamic README badges (tests count + coverage %) live on the
+      # ci-badges branch; refreshed only on pushes to Develop/main so
+      # PR runs can never overwrite them.
+      - name: Publish dynamic badges
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/Develop' || github.ref == 'refs/heads/main')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: bash scripts/publish-badges.sh
 
       - name: Coverage summary
         if: always()
