@@ -20,6 +20,14 @@ export default defineConfig({
     setupFiles: ['./src/test/setup.ts'],
     css: false,
     include: ['src/**/*.test.{ts,tsx}'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html', 'json-summary'],
+      reportsDirectory: './coverage',
+      // Instrument shipped dashboard code; tests themselves are excluded
+      include: ['src/components/**', 'src/context/**', 'src/data/**', 'src/pages/**'],
+      exclude: ['src/**/*.test.*', 'src/test/**'],
+    },
   },
   resolve: {
     alias: {

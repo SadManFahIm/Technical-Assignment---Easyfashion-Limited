@@ -36,6 +36,9 @@ Desktop.ini
 *.tsbuildinfo
 next-env.d.ts
 
+# Test coverage
+coverage/
+
 # Editors / workspace
 .vscode/
 .idea/
