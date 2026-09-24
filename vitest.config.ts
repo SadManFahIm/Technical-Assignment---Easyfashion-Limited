@@ -27,6 +27,24 @@ export default defineConfig({
       // Instrument shipped dashboard code; tests themselves are excluded
       include: ['src/components/**', 'src/context/**', 'src/data/**', 'src/pages/**'],
       exclude: ['src/**/*.test.*', 'src/test/**'],
+      // Ratchet: floors that fail CI when coverage regresses below them.
+      // Raise them as more tests land — never lower them.
+      thresholds: {
+        // Global floor across all instrumented sources
+        statements: 25,
+        branches: 55,
+        functions: 37,
+        lines: 25,
+        'src/data/**': {
+          statements: 100, branches: 100, functions: 100, lines: 100,
+        },
+        'src/context/**': {
+          statements: 100, branches: 75, functions: 75, lines: 100,
+        },
+        'src/components/dashboard/**': {
+          statements: 35, branches: 65, functions: 45, lines: 35,
+        },
+      },
     },
   },
   resolve: {

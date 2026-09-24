@@ -47,3 +47,33 @@ if (typeof window !== 'undefined' && !window.matchMedia) {
     dispatchEvent: () => false,
   })) as unknown as typeof window.matchMedia;
 }
+
+// Recharts' ResponsiveContainer observes its wrapper with ResizeObserver —
+// jsdom has no layout engine, so provide a stub that reports a fixed size,
+// letting charts mount and render their SVG in tests.
+if (typeof window !== 'undefined' && !window.ResizeObserver) {
+  class ResizeObserverStub implements ResizeObserver {
+    private cb: ResizeObserverCallback = () => {};
+
+    constructor(cb: ResizeObserverCallback) {
+      this.cb = cb;
+    }
+
+    observe = (target: Element) => {
+      const contentRect = {
+        width: 600, height: 300, top: 0, left: 0,
+        bottom: 0, right: 0, x: 0, y: 0,
+        toJSON: () => ({}),
+      };
+      this.cb(
+        [{ target, contentRect } as unknown as ResizeObserverEntry],
+        this as unknown as ResizeObserver,
+      );
+    };
+
+    unobserve() {}
+    disconnect() {}
+  }
+  window.ResizeObserver =
+    ResizeObserverStub as unknown as typeof window.ResizeObserver;
+}
