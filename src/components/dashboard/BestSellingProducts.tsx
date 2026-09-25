@@ -39,7 +39,15 @@ const BestSellingProducts: React.FC = () => (
             </div>
             <Text strong style={{ fontSize: 13, color: p.color }}>{p.progress}%</Text>
           </div>
-          <Progress percent={p.progress} showInfo={false} strokeColor={p.color} trailColor="#f0f4f9" strokeLinecap="round" size={['100%', 6]} />
+          <Progress
+            percent={p.progress}
+            showInfo={false}
+            strokeColor={p.color}
+            trailColor="#f0f4f9"
+            strokeLinecap="round"
+            size={['100%', 6]}
+            aria-label={`${p.name} sales progress`}
+          />
         </div>
       ))}
     </div>

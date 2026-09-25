@@ -69,7 +69,12 @@ export const MonthlyEarnings: React.FC = () => (
     {/* Header row with toggle switch (matches Figma) */}
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
       <Title level={5} style={{ margin: 0 }}>Monthly earnings</Title>
-      <Switch defaultChecked size="small" style={{ background: '#5d87ff' }} />
+      <Switch
+        defaultChecked
+        size="small"
+        style={{ background: '#5d87ff' }}
+        aria-label="Toggle monthly earnings view"
+      />
     </div>
 
     {/* Value + growth */}

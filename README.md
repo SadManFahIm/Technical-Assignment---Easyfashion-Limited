@@ -19,7 +19,8 @@ A modern, fully responsive **Admin Dashboard** built with **Next.js 15 (Pages Ro
 - **Light / Dark mode** — `ThemeContext`-driven algorithm switching via Ant Design's theming engine, persisted across reloads.
 - **Optimized images** — `next/image` everywhere (remote avatars + local illustrations) with `priority` and `sizes` hints for strong LCP.
 - **Typed end-to-end** — strict TypeScript, ESLint 9 (flat config) clean.
-- **Tested & measured** — Vitest + React Testing Library suite with coverage thresholds enforced in CI; lint, build, Docker smoke test, and dependency audit gate every PR.
+- **Tested & measured** — Vitest + React Testing Library suite with coverage thresholds enforced in CI, plus a Playwright E2E smoke run in a real browser; lint, build, Docker smoke test, and dependency audit gate every PR.
+- **Accessible by default** — axe-core scans every widget, layout, and page; serious/critical violations fail the build, and interactive widgets carry explicit ARIA labels.
 - **Secure by default** — all pinned dependencies pass `npm audit` with **0 known vulnerabilities** (postcss pinned to the patched release via npm `overrides`).
 - **One-command Docker deploy** — multi-stage build producing a slim, non-root, standalone runtime.
 
@@ -53,6 +54,8 @@ A modern, fully responsive **Admin Dashboard** built with **Next.js 15 (Pages Ro
 | [TypeScript](https://www.typescriptlang.org/) | Type safety | 5.9.3 |
 | [Day.js](https://day.js.org/) | Date utilities (used by Ant Design) | 1.11.23 |
 | [Vitest](https://vitest.dev/) + [RTL](https://testing-library.com/docs/react-testing-library/intro/) | Unit & component tests | 3.2.7 / 16.3.3 |
+| [Playwright](https://playwright.dev/) | E2E smoke tests + real-browser a11y scans | 1.63.0 |
+| [jest-axe](https://github.com/NickColley/jest-axe) + axe-core | Accessibility checks (unit + E2E) | 11.x / 4.x |
 | [ESLint](https://eslint.org/) | Linting (flat config) | 9.x |
 | Docker | Containerised deployment | multi-stage |
 
@@ -98,7 +101,8 @@ easy-fashion-dashboard/
 │   │   └── mockData.ts              # All mock data (swap for API calls)
 │   │
 │   ├── test/
-│   │   └── setup.ts                 # Vitest setup (jest-dom, shims, cleanup)
+│   │   ├── setup.ts                 # Vitest setup (jest-dom, shims, cleanup)
+│   │   └── accessibility.test.tsx   # axe-core a11y gate (serious/critical)
 │   │
 │   ├── pages/                       # File-based routes
 │   │   ├── _app.tsx                 # ConfigProvider + theme tokens
@@ -112,7 +116,10 @@ easy-fashion-dashboard/
 │
 ├── .dockerignore                    # Docker build context exclusions
 ├── .gitignore                       # Local artifacts never reach the repo
+├── e2e/
+│   └── smoke.spec.ts                # Playwright E2E smoke (routes, a11y, dark mode)
 ├── eslint.config.mjs                # ESLint 9 flat config (next/core-web-vitals)
+├── playwright.config.ts             # Playwright config (chromium, port 3100)
 ├── vitest.config.ts                 # Vitest config (jsdom, alias, coverage)
 ├── Dockerfile                       # Multi-stage production image
 ├── docker-compose.yml               # One-command deployment
@@ -175,6 +182,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 | `npm test` | Run the Vitest suite (CI mode) |
 | `npm run test:watch` | Run tests in watch mode |
 | `npm run test:coverage` | Run tests with V8 coverage (thresholds enforced) |
+| `npm run test:e2e` | Run the Playwright E2E smoke suite (builds/starts the app) |
 
 ---
 
@@ -202,6 +210,7 @@ Then open [http://localhost:3000](http://localhost:3000). The container includes
 - **Charts** — Recharts for its small footprint and SSR compatibility with Next.js.
 - **Responsiveness** — Ant Design's `Row`/`Col` grid with `xs → lg` breakpoints keeps the layout clean on mobile and tablet.
 - **Images** — remote DiceBear avatars whitelisted via `images.remotePatterns`; above-the-fold art uses `priority`.
+- **Accessibility** — axe-core gates serious/critical violations at both the component layer (jsdom) and the page layer (Chromium via Playwright); charts, toggles, and controls carry explicit ARIA labels.
 - **Comments** — every file is thoroughly commented for maintainability.
 
 ---
