@@ -24,10 +24,13 @@ export default defineConfig({
     // under jsdom; give heavy suites room instead of flaking.
     testTimeout: 20_000,
     hookTimeout: 20_000,
-    // The axe + cssinjs suites are CPU-heavy; too many parallel workers
-    // starve the vitest RPC channel and abort the run with "Timeout calling
-    // onTaskUpdate". Two workers keep the run stable with negligible cost.
-    maxWorkers: 2,
+    // Stability: vitest's worker_threads RPC times out under sustained CPU
+    // load ("Timeout calling onTaskUpdate", vitest-dev/vitest#6511) and
+    // fails the run as an unhandled error even when every test passes.
+    // The `forks` pool + no file parallelism sidesteps the flaky thread RPC
+    // entirely — slightly slower, fully deterministic.
+    pool: 'forks',
+    fileParallelism: false,
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html', 'json-summary'],
