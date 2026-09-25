@@ -24,6 +24,10 @@ export default defineConfig({
     // under jsdom; give heavy suites room instead of flaking.
     testTimeout: 20_000,
     hookTimeout: 20_000,
+    // The axe + cssinjs suites are CPU-heavy; too many parallel workers
+    // starve the vitest RPC channel and abort the run with "Timeout calling
+    // onTaskUpdate". Two workers keep the run stable with negligible cost.
+    maxWorkers: 2,
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html', 'json-summary'],
@@ -32,13 +36,15 @@ export default defineConfig({
       include: ['src/components/**', 'src/context/**', 'src/data/**', 'src/pages/**'],
       exclude: ['src/**/*.test.*', 'src/test/**'],
       // Ratchet: floors that fail CI when coverage regresses below them.
-      // Raise them as more tests land — never lower them.
+      // Raise them as more tests land — never lower them. Statements and
+      // functions sit exactly on the observed floor; branches keep ~1.5%
+      // headroom because v8's branch remapping wobbles between runs.
       thresholds: {
         // Global floor across all instrumented sources
-        statements: 62,
-        branches: 85,
-        functions: 69,
-        lines: 62,
+        statements: 97,
+        branches: 90,
+        functions: 88,
+        lines: 97,
         'src/data/**': {
           statements: 100, branches: 100, functions: 100, lines: 100,
         },
@@ -46,10 +52,13 @@ export default defineConfig({
           statements: 100, branches: 75, functions: 75, lines: 100,
         },
         'src/components/dashboard/**': {
-          statements: 81, branches: 91, functions: 76, lines: 81,
+          statements: 96, branches: 92, functions: 84, lines: 96,
         },
         'src/components/layout/**': {
           statements: 100, branches: 90, functions: 100, lines: 100,
+        },
+        'src/pages/**': {
+          statements: 94, branches: 84, functions: 100, lines: 94,
         },
       },
     },
