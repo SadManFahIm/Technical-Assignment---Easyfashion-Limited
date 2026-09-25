@@ -77,3 +77,26 @@ if (typeof window !== 'undefined' && !window.ResizeObserver) {
   window.ResizeObserver =
     ResizeObserverStub as unknown as typeof window.ResizeObserver;
 }
+
+// ── Console noise control (deliberate, narrowly scoped) ──────────────────
+// AntD/rc-* call jsdom's unimplemented pseudo-element getComputedStyle and
+// React logs act() warnings on every mount. Under jsdom these are cosmetic,
+// but they flood vitest's worker→main RPC channel with thousands of large
+// payloads on CI, killing the run *after* all tests pass with
+// "Timeout calling onTaskUpdate" (vitest-dev/vitest#6511).
+//
+// Only these two known-cosmetic messages are dropped — every other error,
+// and all real assertion/a11y failures, still surface normally.
+const SILENCED_CONSOLE_ERRORS = [
+  'Not implemented: window.getComputedStyle',
+  'not wrapped in act',
+];
+
+const originalConsoleError = console.error.bind(console);
+console.error = ((...args: unknown[]) => {
+  const text = args
+    .map((a) => (a instanceof Error ? a.message : typeof a === 'string' ? a : ''))
+    .join(' ');
+  if (SILENCED_CONSOLE_ERRORS.some((m) => text.includes(m))) return;
+  originalConsoleError(...args);
+}) as typeof console.error;
