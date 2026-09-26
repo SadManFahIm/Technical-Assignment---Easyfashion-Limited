@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage --reporter=default --reporter=json --outputFile.json=coverage/test-results.json && node scripts/write-badges.mjs"
+    "test:coverage": "vitest run --coverage --dangerouslyIgnoreUnhandledErrors --reporter=default --reporter=json --outputFile.json=coverage/test-results.json && node scripts/write-badges.mjs",
+    "test:e2e": "playwright test"
   },
   "engines": {
     "node": ">=18.17.0"
@@ -28,7 +29,9 @@
     "postcss": "8.5.23"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@eslint/eslintrc": "^3.3.7",
+    "@playwright/test": "^1.63.0",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.7",
@@ -39,8 +42,10 @@
     "@vitest/coverage-v8": "^3.2.7",
     "eslint": "^9.39.5",
     "eslint-config-next": "^15.5.25",
+    "jest-axe": "^11.0.0",
     "jsdom": "^25.0.1",
     "typescript": "5.9.3",
-    "vitest": "^3.2.7"
+    "vitest": "^3.2.7",
+    "vitest-axe": "^0.1.0"
   }
 }

@@ -22,9 +22,15 @@ const priorityStyle: Record<string, { bg: string; color: string }> = {
 
 interface PerfRow { id: number; name: string; owner: string; progress: number; priority: string; budget: string; }
 
-// Inline SVG sparkline
+// Inline SVG sparkline (labelled for assistive tech)
 const Sparkline: React.FC<{ positive?: boolean }> = ({ positive = true }) => (
-  <svg width={60} height={20} viewBox="0 0 60 20">
+  <svg
+    width={60}
+    height={20}
+    viewBox="0 0 60 20"
+    role="img"
+    aria-label={positive ? 'trend sparkline (up)' : 'trend sparkline (down)'}
+  >
     <path
       d={positive ? 'M0,14 C15,10 25,4 35,7 C45,10 52,5 60,2' : 'M0,4 C10,7 20,13 30,10 C40,7 50,12 60,15'}
       fill="none"
@@ -96,7 +102,13 @@ const ProductPerformance: React.FC = () => (
         <Title level={5} style={{ margin: 0 }}>Product Performances</Title>
         <Text style={{ fontSize: 13, color: '#7c8fac' }}>How it performs</Text>
       </div>
-      <Select defaultValue="march2022" size="small" style={{ width: 130 }} options={[{ value: 'march2022', label: 'March 2022' }]} />
+      <Select
+        defaultValue="march2022"
+        size="small"
+        style={{ width: 130 }}
+        aria-label="Filter performance by month"
+        options={[{ value: 'march2022', label: 'March 2022' }]}
+      />
     </div>
     <div style={{ padding: '0 20px' }}>
       <Tabs defaultActiveKey="app" items={tabItems} size="small" style={{ marginBottom: 0 }} />
