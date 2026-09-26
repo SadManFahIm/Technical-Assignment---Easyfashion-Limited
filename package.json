@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage --reporter=default --reporter=json --outputFile.json=coverage/test-results.json && node scripts/write-badges.mjs",
+    "test:coverage": "vitest run --coverage --dangerouslyIgnoreUnhandledErrors --reporter=default --reporter=json --outputFile.json=coverage/test-results.json && node scripts/write-badges.mjs",
     "test:e2e": "playwright test"
   },
   "engines": {

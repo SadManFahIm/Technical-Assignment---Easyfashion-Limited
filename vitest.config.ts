@@ -4,6 +4,16 @@
  * - jsdom environment so Ant Design components mount like a browser
  * - '@' alias mirrors tsconfig paths
  * - setup file wires jest-dom matchers + cleanup + jsdom shims
+ *
+ * Why `npm run test:coverage` passes --dangerouslyIgnoreUnhandledErrors:
+ * the page-level axe scans in src/test/accessibility.test.tsx block the worker
+ * event loop for 60-85s, and vitest's worker->main onTaskUpdate RPC has a
+ * hardcoded 60s birpc timeout that no config option can raise (vitest 3.x;
+ * fixed upstream in v4.0.0-beta.4, vitest-dev/vitest#8297). Every test still
+ * passes, but the expired timer surfaces as an unhandled error and flips the
+ * exit code to 1 (vitest-dev/vitest#6511). v8 coverage is what pushes those
+ * scans past the window — un-instrumented they run 43-55s. `npm test` stays
+ * strict, so genuine unhandled errors still fail CI.
  */
 
 import { defineConfig } from 'vitest/config';
@@ -24,11 +34,8 @@ export default defineConfig({
     // under jsdom; give heavy suites room instead of flaking.
     testTimeout: 20_000,
     hookTimeout: 20_000,
-    // Stability: vitest's worker_threads RPC times out under sustained CPU
-    // load ("Timeout calling onTaskUpdate", vitest-dev/vitest#6511) and
-    // fails the run as an unhandled error even when every test passes.
-    // The `forks` pool + no file parallelism sidesteps the flaky thread RPC
-    // entirely — slightly slower, fully deterministic.
+    // Stability: one worker, one file at a time — keeps the run predictable
+    // on CI and keeps memory flat while the jsdom suites mount.
     pool: 'forks',
     fileParallelism: false,
     coverage: {
