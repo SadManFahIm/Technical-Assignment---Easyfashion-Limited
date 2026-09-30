@@ -7,14 +7,15 @@
  * the build. `color-contrast` is disabled here because jsdom cannot compute
  * real layout/pseudo-element styles (it throws on `getComputedStyle` with
  * pseudo selectors, so contrast results would be unreliable); contrast is
- * instead computed by the Playwright E2E scans in a real browser and
- * reported on every run.
+ * measured and gated instead by the Playwright E2E scan in a real browser,
+ * where every failing pair must be fixed or declared in
+ * e2e/smoke.spec.ts.
  *
  * Known, documented exception: Ant Design's <Menu> renders group titles
  * (<li class="ant-menu-item-group-title">) inside the menu listbox, which
  * trips axe's `aria-required-children` rule. That is a library-internal
  * structure we do not control here, so it is disabled for all scans —
- * everything else (including color-contrast) must pass.
+ * everything else must pass.
  *
  * Implementation note: the matchers come from jest-axe (CJS); vitest-axe
  * 0.1.0 ships an empty `extend-expect.js` so its matcher is unusable.
@@ -62,13 +63,14 @@ if (!pkg.devDependencies?.['jest-axe']) {
   );
 }
 
-// serious + critical fail the build (color-contrast included); the rest log.
+// serious + critical fail the build; the rest are logged only.
 const axeOptions: JestAxeConfigureOptions = {
   impactLevels: ['serious', 'critical'],
   rules: {
     // AntD Menu renders <li> group titles inside the listbox (library-internal)
     'aria-required-children': { enabled: false },
-    // jsdom cannot compute real styles — see file header; E2E reports contrast
+    // jsdom cannot compute real styles — contrast is gated in the E2E scan
+    // against a real browser instead (see the file header).
     'color-contrast': { enabled: false },
   },
 };
