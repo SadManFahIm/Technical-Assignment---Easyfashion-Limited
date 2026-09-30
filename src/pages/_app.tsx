@@ -25,6 +25,11 @@ const ThemedApp = ({ Component, pageProps }: AppProps) => {
     colorBorder:         '#ebf0f7',
     colorText:           '#2a3547',
     colorTextSecondary:  '#7c8fac',
+    // AntD's own default (#8c8c8c) is only 3.36:1 on white, so the sidebar
+    // group titles ("DASHBOARDS" / "APPLICATIONS") failed WCAG 1.4.3. This is
+    // a library default rather than a design colour, so it is corrected here
+    // (#767676 = 4.54:1) instead of being declared as contrast debt.
+    colorTextDescription: '#767676',
   };
 
   const darkTokens = {
@@ -36,6 +41,9 @@ const ThemedApp = ({ Component, pageProps }: AppProps) => {
     colorTextSecondary: '#8899bb',
     colorBgElevated:    '#253350',
     colorFillAlter:     '#253350',
+    // Lighter counterpart: #8c8c8c is only 4.24:1 on the dark surface,
+    // #9aa8bd reaches 5.92:1.
+    colorTextDescription: '#9aa8bd',
   };
 
   return (
