@@ -73,6 +73,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({ collapsed, onToggle }) => {
         <Input
           prefix={<SearchOutlined style={{ color: '#7c8fac' }} />}
           placeholder="Search..."
+          aria-label="Search"
           style={{
             width: 240,
             borderRadius: 8,
@@ -88,12 +89,18 @@ const TopHeader: React.FC<TopHeaderProps> = ({ collapsed, onToggle }) => {
       <Space size={8}>
         {/* ── Dark / Light toggle ── */}
         <Tooltip title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }} onClick={toggleTheme}>
+          <div
+            style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}
+            onClick={toggleTheme}
+            role="group"
+            aria-label="Dark mode toggle"
+          >
             <SunOutlined style={{ fontSize: 14, color: isDark ? '#8899bb' : '#ffae1f' }} />
             <Switch
               checked={isDark}
               onChange={toggleTheme}
               size="small"
+              aria-label="Toggle dark mode"
               style={{ background: isDark ? '#5d87ff' : '#d9d9d9' }}
             />
             <MoonOutlined style={{ fontSize: 14, color: isDark ? '#5d87ff' : '#7c8fac' }} />

@@ -39,6 +39,12 @@ next-env.d.ts
 # Test coverage
 coverage/
 
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
 # Editors / workspace
 .vscode/
 .idea/

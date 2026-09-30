@@ -85,6 +85,7 @@ const Sidebar: React.FC<{ collapsed: boolean }> = ({ collapsed }) => {
           <Avatar
             size={42}
             src="https://api.dicebear.com/7.x/avataaars/svg?seed=mathew&backgroundColor=b6e3f4"
+            alt="Mathew Anderson"
             style={{ border: '2px solid #5d87ff', flexShrink: 0 }}
           />
           <div>

@@ -47,3 +47,56 @@ if (typeof window !== 'undefined' && !window.matchMedia) {
     dispatchEvent: () => false,
   })) as unknown as typeof window.matchMedia;
 }
+
+// Recharts' ResponsiveContainer observes its wrapper with ResizeObserver —
+// jsdom has no layout engine, so provide a stub that reports a fixed size,
+// letting charts mount and render their SVG in tests.
+if (typeof window !== 'undefined' && !window.ResizeObserver) {
+  class ResizeObserverStub implements ResizeObserver {
+    private cb: ResizeObserverCallback = () => {};
+
+    constructor(cb: ResizeObserverCallback) {
+      this.cb = cb;
+    }
+
+    observe = (target: Element) => {
+      const contentRect = {
+        width: 600, height: 300, top: 0, left: 0,
+        bottom: 0, right: 0, x: 0, y: 0,
+        toJSON: () => ({}),
+      };
+      this.cb(
+        [{ target, contentRect } as unknown as ResizeObserverEntry],
+        this as unknown as ResizeObserver,
+      );
+    };
+
+    unobserve() {}
+    disconnect() {}
+  }
+  window.ResizeObserver =
+    ResizeObserverStub as unknown as typeof window.ResizeObserver;
+}
+
+// ── Console noise control (deliberate, narrowly scoped) ──────────────────
+// AntD/rc-* call jsdom's unimplemented pseudo-element getComputedStyle and
+// React logs act() warnings on every mount. Under jsdom these are cosmetic,
+// but they flood vitest's worker→main RPC channel with thousands of large
+// payloads on CI, killing the run *after* all tests pass with
+// "Timeout calling onTaskUpdate" (vitest-dev/vitest#6511).
+//
+// Only these two known-cosmetic messages are dropped — every other error,
+// and all real assertion/a11y failures, still surface normally.
+const SILENCED_CONSOLE_ERRORS = [
+  'Not implemented: window.getComputedStyle',
+  'not wrapped in act',
+];
+
+const originalConsoleError = console.error.bind(console);
+console.error = ((...args: unknown[]) => {
+  const text = args
+    .map((a) => (a instanceof Error ? a.message : typeof a === 'string' ? a : ''))
+    .join(' ');
+  if (SILENCED_CONSOLE_ERRORS.some((m) => text.includes(m))) return;
+  originalConsoleError(...args);
+}) as typeof console.error;

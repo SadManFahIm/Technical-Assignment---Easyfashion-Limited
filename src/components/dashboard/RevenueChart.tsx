@@ -58,6 +58,7 @@ const RevenueChart: React.FC = () => {
           defaultValue="march2022"
           size="small"
           style={{ width: 130 }}
+          aria-label="Select revenue month"
           options={[
             { value: 'march2022', label: 'March 2022' },
             { value: 'april2022', label: 'April 2022' },

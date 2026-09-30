@@ -78,7 +78,13 @@ const TopProjects: React.FC = () => (
         <Title level={5} style={{ margin: 0 }}>Top Projects</Title>
         <Text style={{ fontSize: 13, color: '#7c8fac' }}>Best employees</Text>
       </div>
-      <Select defaultValue="all" size="small" style={{ width: 130 }} options={[{ value: 'all', label: 'Enter Text' }, { value: '2022', label: 'Year 2022' }]} />
+      <Select
+        defaultValue="all"
+        size="small"
+        style={{ width: 130 }}
+        aria-label="Filter projects"
+        options={[{ value: 'all', label: 'Enter Text' }, { value: '2022', label: 'Year 2022' }]}
+      />
     </div>
     <Table<ProjectRow> dataSource={topProjects} columns={columns} rowKey="id" pagination={false} size="middle" />
   </Card>
